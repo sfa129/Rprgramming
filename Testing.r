@@ -254,3 +254,229 @@ attr(,"levels")
     
     #write with few words due to forget
     apropos(lm)           #find function not working
+    
+    Practice on 08-06-2022
+    
+    z <- c("a", "b" , "c" , "d" , "d")    #sebsetting with vectors   -   (Console Based)
+    > z[1]
+    [1] "a"
+    
+    
+    z[z > "a"]                            #sebsetting01
+    [1] "b" "c" "d" "d"
+    
+    
+    > u <- z > "a"                        #sebsetting02
+    > u
+    [1] FALSE  TRUE  TRUE  TRUE  TRUE
+    > z[u]
+    [1] "b" "c" "d" "d"
+    > u[z]
+    [1] NA NA NA NA NA
+    
+    
+    
+    d <- matrix(1:8 , 4, 2)                # subsetting with matrices - (console based)
+    d[1, 2]                                # first value define row number and the second is the position
+    [1] 5
+    > d[2, 2]
+    [1] 6
+    > d[3, 1]
+    [1] 3
+    > d[1, ]                               #if we required all row elements, then we write only row number
+    [1] 1 5
+    > d[ ,3]
+    
+    
+    d <- matrix(1:8 , 4, 2)                #value show / return in matrix form instead of vectors.
+    d[1, 2, drop=FALSE]
+          [,1]
+    [1,]    5
+    
+    
+       > d[3, , drop=FALSE]
+           [,1] [,2]
+    [1,]    3    7
+    
+    
+    > x <- list(weekday=1:4 , rain_prob=0.8)             #define list
+    > x                                                  #print the list  
+    $weekday                                               
+    [1] 1 2 3 4
+    
+    $rain_prob
+    [1] 0.8
+    
+    > x[1]                                              #technique 01 to call / print subsetting list
+    $weekday
+    [1] 1 2 3 4
+    
+    > x[2] 
+    $rain_prob
+    [1] 0.8
+    
+    > x[[1]]                                            #technique 02 to call / print subsetting list
+    [1] 1 2 3 4
+    > x[[2]]
+    [1] 0.8
+    > 
+      > x$rain_prob                                     #technique 03 to call / print subsetting list
+    [1] 0.8
+    > x$weekday
+    [1] 1 2 3 4
+    > 
+      > 
+      > x[["rain"]]                                     #technique 04 to call / print  subsetting list
+    NULL
+    > x[["rain_prob"]]
+    [1] 0.8
+    > x[["weekday"]]
+    [1] 1 2 3 4
+    > 
+    
+    
+    > x["rain_prob"]                                    #technique 05 to call / print subsetting list 
+    $rain_prob
+    [1] 0.8
+    
+    
+    > x <- list(weekday=1:4 , rain_prob=0.8 , item="umbrella")      #add one more subsetting list       
+    > x 
+    $weekday
+    [1] 1 2 3 4
+    
+    $rain_prob
+    [1] 0.8
+    
+    $item
+    [1] "umbrella"
+    
+    > x[c(1,3)]                                                     #technique by which we call / print 2 subsetting lists
+    $weekday
+    [1] 1 2 3 4
+    
+    $item
+    [1] "umbrella"
+    
+    > x[c(3,2)]
+    $item
+    [1] "umbrella"
+    
+    $rain_prob
+    [1] 0.8
+    
+    
+    x <- list(weekday=1:4 , rain_prob=0.8 , item="umbrella")      #list assign to variable "name" and then call / print it.
+    > name <- "weekday"
+    > x[[name]]
+    [1] 1 2 3 4
+    > 
+    > faiz <- "rain_prob"                                         #example 02
+    > x[[faiz]]
+    [1] 0.8
+    
+    
+    x$faiz                                                        #it shows null because $ is a pointer to see in the list and print their element
+    NULL
+    > x$name
+    NULL
+    
+    
+    
+    > x <- list(a = list(10, 12, 15), b = c(1, 2, 3))       #Subsetting nested elements of list   -   technique 01
+    > x[[c(1,2)]]
+    [1] 12
+    
+    > x[[c(2,3)]]
+    [1] 3
+    
+    > x[[c(2,3)]]
+    [1] 3
+    
+    > x[[c(2, )]]
+    Error in c(2, ) : argument 2 is empty                    #technique 02
+    > 
+      
+    x[[1]][[2]]
+    [1] 12
+    x[[2]][[2]]
+    [1] 2
+
+    
+    
+    > x <- c(2, NA, 4, NA, 5, 6)                                  #Removing NA values
+    > is.na(x)
+    [1] FALSE  TRUE FALSE  TRUE FALSE FALSE
+    > bad <- is.na(x)                                             #bad use to store logical values
+    > bad
+    [1] FALSE  TRUE FALSE  TRUE FALSE FALSE
+    > !bad                                                        #use ! mark with bad to print reverse.
+    [1]  TRUE FALSE  TRUE FALSE  TRUE  TRUE
+    > x[!bad]
+    [1] 2 4 5 6                                                   #if we use !bad with vector x, so, we get all elements except the NA values
+    
+    
+    
+    a <- c(1, 2, NA, 4, NA, 5)                                    #Removing NA values
+    > b <- c("a", "b", NA, "d", NA, "f")
+    > good <- complete.cases(a,b)                                 #complete.cases contains all defined vectors
+    > good
+    [1]  TRUE  TRUE FALSE  TRUE FALSE  TRUE
+    > a[good]
+    [1] 1 2 4 5
+    > b[good]
+    [1] "a" "b" "d" "f"
+    
+    
+    x <- c(1, 2, NA, 4, NA, NA, 7)                                #But with different example, I was not find the same result.
+    > y <- c("a", NA, NA, "d", NA, "e", "f")
+    > good <- complete.cases(x,y)
+    > good
+    [1]  TRUE FALSE FALSE  TRUE FALSE FALSE  TRUE
+    > x[good]
+    [1] 1 4 7
+    > y[good]
+    [1] "a" "d" "f"
+    > x[!good]
+    [1]  2 NA NA NA
+    > 
+      > y[!good]
+    [1] NA  NA  NA  "e"
+    
+    
+    airquality   #provides data pertains to air quality in new york
+    view(airquality)    #print in this area
+    
+    a <- airquality     #airquality dump into a
+    > View(a)           #view the a
+    > View(a)
+    > a[1:6, ]          #only view the six rows
+    Ozone Solar.R Wind Temp Month Day
+    1    41     190  7.4   67     5   1
+    2    36     118  8.0   72     5   2
+    3    12     149 12.6   74     5   3
+    4    18     313 11.5   62     5   4
+    5    NA      NA 14.3   56     5   5
+    6    28      NA 14.9   66     5   6
+    
+    > airquality[1:6, ]
+    Ozone Solar.R Wind Temp Month Day
+    1    41     190  7.4   67     5   1
+    2    36     118  8.0   72     5   2
+    3    12     149 12.6   74     5   3
+    4    18     313 11.5   62     5   4
+    5    NA      NA 14.3   56     5   5
+    6    28      NA 14.9   66     5   6
+    
+    > good <- complete.cases(airquality)    #with complete.cases, we store the data of airquality into good
+    
+    airquality[good, ][1:6, ]               #print the data which we required from airquality
+    Ozone Solar.R Wind Temp Month Day
+    1    41     190  7.4   67     5   1
+    2    36     118  8.0   72     5   2
+    3    12     149 12.6   74     5   3
+    4    18     313 11.5   62     5   4
+    7    23     299  8.6   65     5   7
+    8    19      99 13.8   59     5   8
+    
+    
